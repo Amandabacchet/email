@@ -1,0 +1,31 @@
+import smtplib
+from datetime import datetime
+
+# Configurações do servidor SMTP e das credenciais
+SMTP_SERVER = 'smtp.example.com'
+SMTP_PORT = 587
+SMTP_USERNAME = 'seu_email@example.com'
+SMTP_PASSWORD = 'sua_senha'
+
+# Função para enviar o e-mail
+def send_email(subject, body, sender, recipient):
+    message = f'Subject: {subject}\n\n{body}'
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+        server.starttls()
+        server.login(SMTP_USERNAME, SMTP_PASSWORD)
+        server.sendmail(sender, recipient, message)
+
+# Verifica o horário atual
+now = datetime.now()
+current_hour = now.hour
+
+# Define o destinatário do e-mail
+recipient_email = 'destinatario@example.com'
+
+# Envia o e-mail com base no horário atual
+if current_hour < 12:
+    send_email('Bom dia!', 'Espero que você tenha um ótimo dia!', SMTP_USERNAME, recipient_email)
+elif current_hour < 18:
+    send_email('Boa tarde!', 'Tenha uma tarde produtiva!', SMTP_USERNAME, recipient_email)
+else:
+    send_email('Boa noite!', 'Tenha uma ótima noite de descanso!', SMTP_USERNAME, recipient_email)
